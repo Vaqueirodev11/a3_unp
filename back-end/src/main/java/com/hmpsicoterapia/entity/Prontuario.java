@@ -1,8 +1,8 @@
+// Arquivo: back-end/src/main/java/com/hmpsicoterapia/entity/Prontuario.java
 package com.hmpsicoterapia.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -14,8 +14,14 @@ public class Prontuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
-    private String nomePaciente;
+    // REMOVE o campo 'nomePaciente'
+    // @Column(nullable = false)
+    // private String nomePaciente;
+
+    // ADICIONA a relação com a entidade Paciente
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // Cascade.ALL salva/atualiza o paciente junto com o prontuário. EAGER carrega o paciente junto.
+    @JoinColumn(name = "paciente_id", referencedColumnName = "id", nullable = false)
+    private Paciente paciente;
 
     @Column(length = 4000)
     private String historicoMedico;
@@ -32,7 +38,7 @@ public class Prontuario {
     @Column(nullable = false)
     private String tipoTratamento;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String numeroProntuario;
 
     @Column(nullable = false)
@@ -41,7 +47,6 @@ public class Prontuario {
     @Column(nullable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
-    // Auditoria básica
     @Column(nullable = false)
     private String ultimaAlteracaoPor;
 

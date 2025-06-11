@@ -1,3 +1,4 @@
+// Arquivo: src/services/prontuarioService.ts
 import api from './api';
 import { 
   BuscaProntuarioParams, 
@@ -6,9 +7,24 @@ import {
   ResultadoBusca 
 } from '../types/prontuario';
 
+// Interface para o payload de criação/atualização, alinhada com o ProntuarioDTO do backend
+export interface ProntuarioPayload {
+  paciente: NovoProntuarioRequest['paciente']; // Objeto paciente aninhado
+  tipoTratamento: string;
+  historicoMedico: string; // String simples
+  numeroProntuario: string;
+  medicamentos?: string;
+  exames?: string;
+  condicoesClinicas?: string;
+}
+
+// A função buscarProntuarios volta a esperar um objeto ResultadoBusca,
+// que é o padrão ideal para lidar com paginação.
 export const buscarProntuarios = async (params: BuscaProntuarioParams): Promise<ResultadoBusca> => {
   try {
     const response = await api.get('/prontuarios', { params });
+    // Se o backend não retornar a estrutura de paginação, você precisará adaptar aqui.
+    // Ex: return { content: response.data, pageable: { ...valores padrão } }
     return response.data;
   } catch (error) {
     throw error;
@@ -24,7 +40,8 @@ export const buscarProntuarioPorId = async (id: string): Promise<Prontuario> => 
   }
 };
 
-export const criarProntuario = async (dados: NovoProntuarioRequest): Promise<Prontuario> => {
+// CORRIGIDO: A função agora espera o payload com a estrutura correta (aninhada)
+export const criarProntuario = async (dados: ProntuarioPayload): Promise<Prontuario> => {
   try {
     const response = await api.post('/prontuarios', dados);
     return response.data;
@@ -33,7 +50,9 @@ export const criarProntuario = async (dados: NovoProntuarioRequest): Promise<Pro
   }
 };
 
-export const atualizarProntuario = async (id: string, dados: Partial<NovoProntuarioRequest>): Promise<Prontuario> => {
+// CORRIGIDO: A função agora espera o payload com a estrutura correta (aninhada)
+// Usamos Partial<ProntuarioPayload> para permitir atualizações parciais
+export const atualizarProntuario = async (id: string, dados: Partial<ProntuarioPayload>): Promise<Prontuario> => {
   try {
     const response = await api.put(`/prontuarios/${id}`, dados);
     return response.data;

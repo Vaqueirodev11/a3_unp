@@ -1,9 +1,11 @@
+// Arquivo: src/services/authService.ts
 import api, { setAuthToken, removeAuthToken } from './api';
 import { LoginCredentials, RegisterCredentials, UpdatePasswordRequest, UpdateProfileRequest, User } from '../types/auth';
 
 export const login = async (credentials: LoginCredentials) => {
   try {
-    const response = await api.post('/auth/login', credentials);
+    // Path deve ser relativo à baseURL ('/api') da instância 'api'
+    const response = await api.post('/admin/login', credentials);
     
     if (response.data.token) {
       setAuthToken(response.data.token);
@@ -17,7 +19,8 @@ export const login = async (credentials: LoginCredentials) => {
 
 export const register = async (userData: RegisterCredentials) => {
   try {
-    const response = await api.post('/auth/register', userData);
+    // Path deve ser relativo à baseURL ('/api') da instância 'api'
+    const response = await api.post('/admin/register', userData);
     return response.data;
   } catch (error) {
     throw error;
@@ -36,7 +39,8 @@ export const logout = () => {
 
 export const getCurrentUser = async (): Promise<User> => {
   try {
-    const response = await api.get('/user/me');
+    // Path alterado para o novo endpoint no AdminController
+    const response = await api.get('/admin/me'); // <<--- CORREÇÃO AQUI
     return response.data;
   } catch (error) {
     throw error;
@@ -45,7 +49,9 @@ export const getCurrentUser = async (): Promise<User> => {
 
 export const updateProfile = async (data: UpdateProfileRequest) => {
   try {
-    const response = await api.put('/user/profile', data);
+    // Verifique se este endpoint existe no seu backend e se o path está correto
+    // Ex: /api/admin/profile se for um endpoint de admin
+    const response = await api.put('/admin/profile', data); // ASSUMINDO QUE O ENDPOINT É /api/admin/profile
     return response.data;
   } catch (error) {
     throw error;
@@ -54,7 +60,9 @@ export const updateProfile = async (data: UpdateProfileRequest) => {
 
 export const requestPasswordReset = async (email: string) => {
   try {
-    const response = await api.post('/auth/password-reset-request', { email });
+    // Verifique se este endpoint existe no seu backend e se o path está correto
+    // Ex: /api/admin/password-reset-request
+    const response = await api.post('/admin/password-reset-request', { email }); // ASSUMINDO QUE O ENDPOINT É /api/admin/password-reset-request
     return response.data;
   } catch (error) {
     throw error;
@@ -63,7 +71,9 @@ export const requestPasswordReset = async (email: string) => {
 
 export const resetPassword = async (data: UpdatePasswordRequest) => {
   try {
-    const response = await api.post('/auth/reset-password', data);
+    // Verifique se este endpoint existe no seu backend e se o path está correto
+    // Ex: /api/admin/reset-password
+    const response = await api.post('/admin/reset-password', data); // ASSUMINDO QUE O ENDPOINT É /api/admin/reset-password
     return response.data;
   } catch (error) {
     throw error;
@@ -72,7 +82,9 @@ export const resetPassword = async (data: UpdatePasswordRequest) => {
 
 export const changePassword = async (currentPassword: string, newPassword: string) => {
   try {
-    const response = await api.post('/user/change-password', {
+    // Verifique se este endpoint existe no seu backend e se o path está correto
+    // Ex: /api/admin/change-password
+    const response = await api.post('/admin/change-password', { // ASSUMINDO QUE O ENDPOINT É /api/admin/change-password
       senhaAtual: currentPassword,
       novaSenha: newPassword,
     });

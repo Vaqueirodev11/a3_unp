@@ -1,19 +1,8 @@
-export interface Prontuario {
-  id: string;
-  numeroProntuario: string;
-  paciente: Paciente;
-  tipoTratamento: TipoTratamento;
-  dataInicio: string;
-  dataUltimaAtualizacao: string;
-  status: StatusProntuario;
-  historicoMedico: HistoricoMedico[];
-  medicacoes: Medicacao[];
-  exames: Exame[];
-  anotacoes: Anotacao[];
-  createdAt: string;
-  updatedAt: string;
-}
+// Arquivo: src/types/prontuario.ts
+// Este arquivo foi corrigido para refletir a estrutura de dados enviada pelo back-end (Prontuario.java)
 
+// As interfaces/enums abaixo podem não ser totalmente utilizadas pelo novo Prontuario
+// se o backend não fornecer esses dados de forma estruturada, mas as mantemos para outros componentes.
 export interface Paciente {
   id: string;
   nome: string;
@@ -99,6 +88,32 @@ export interface Anotacao {
   updatedAt: string;
 }
 
+// *** INTERFACE PRONTUARIO CORRIGIDA ***
+export interface Prontuario {
+  id: number; // O backend envia um Long, que corresponde a um number no JS/TS
+  
+  // Estrutura "achatada" para corresponder à entidade Prontuario.java
+  nomePaciente: string;
+  historicoMedico: string; // Backend envia como String
+  medicamentos: string;    // Backend envia como String
+  exames: string;          // Backend envia como String
+  condicoesClinicas: string; // Backend envia como String
+  tipoTratamento: string;  // O enum do TS corresponderá a este valor de string
+  numeroProntuario: string;
+  dataCriacao: string;     // Corresponde a createdAt/dataInicio
+  dataUltimaAtualizacao: string; // Corresponde a updatedAt
+  ultimaAlteracaoPor: string;
+  dataUltimaAlteracao: string;
+  
+  // As propriedades abaixo não existem na entidade Prontuario.java do seu backend
+  // e causarão erros se usadas. Elas foram comentadas ou precisam ser removidas
+  // dos componentes que as utilizam (ex: ProntuarioDetailPage, ProntuarioTable).
+  // paciente: Paciente; // Causa principal do erro
+  // status: StatusProntuario;
+}
+
+
+// Interfaces para requisições e busca podem precisar de ajustes também
 export interface BuscaProntuarioParams {
   termo?: string;
   numeroProntuario?: string;

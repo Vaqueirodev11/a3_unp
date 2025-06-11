@@ -1,3 +1,4 @@
+// Arquivo: src/services/api.ts
 import axios, { AxiosError, AxiosInstance } from 'axios';
 import Cookies from 'js-cookie';
 
@@ -54,11 +55,11 @@ api.interceptors.response.use(
 
 // Authentication helpers
 export const setAuthToken = (token: string) => {
-  // Store token in cookie with httpOnly and secure flags
+  // Store token in cookie
   Cookies.set(TOKEN_KEY, token, { 
     expires: 1, // 1 day
-    secure: window.location.protocol === 'https:',
-    sameSite: 'strict'
+    secure: window.location.protocol === 'https:', // Only send cookie over HTTPS if the site is HTTPS
+    sameSite: 'strict' // Strictly same site
   });
 };
 

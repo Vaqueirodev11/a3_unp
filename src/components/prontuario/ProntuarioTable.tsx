@@ -1,3 +1,4 @@
+// Arquivo: src/components/prontuario/ProntuarioTable.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronLeft, ChevronRight, Eye, Edit, FileText } from 'lucide-react';
@@ -24,12 +25,13 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
   const totalPages = Math.ceil(totalItems / pageSize);
 
   const formatData = (dataString: string) => {
+    if (!dataString) return 'N/A';
     const data = new Date(dataString);
     return data.toLocaleDateString('pt-BR');
   };
 
-  const renderTipoTratamento = (tipo: TipoTratamento) => {
-    const tipos = {
+  const renderTipoTratamento = (tipo: string) => { // Alterado para aceitar string
+    const tipos: { [key: string]: string } = { // Chave do tipo string
       [TipoTratamento.TERAPIA_INDIVIDUAL]: 'Terapia Individual',
       [TipoTratamento.TERAPIA_CASAL]: 'Terapia de Casal',
       [TipoTratamento.TERAPIA_GRUPO]: 'Terapia de Grupo',
@@ -39,25 +41,27 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
     return tipos[tipo] || tipo;
   };
 
+  // Esta função não pode mais ser usada como antes, pois 'status' não existe no objeto Prontuario do backend.
+  // A coluna foi removida da tabela.
+  /*
   const renderStatus = (status: StatusProntuario) => {
     const statusClasses = {
       [StatusProntuario.ATIVO]: 'bg-success-100 text-success-800',
       [StatusProntuario.INATIVO]: 'bg-neutral-100 text-neutral-800',
       [StatusProntuario.ARQUIVADO]: 'bg-warning-100 text-warning-800',
     };
-
     const statusLabels = {
       [StatusProntuario.ATIVO]: 'Ativo',
       [StatusProntuario.INATIVO]: 'Inativo',
       [StatusProntuario.ARQUIVADO]: 'Arquivado',
     };
-
     return (
       <span className={`px-2 py-1 rounded-full text-xs font-medium ${statusClasses[status]}`}>
         {statusLabels[status]}
       </span>
     );
   };
+  */
 
   return (
     <div className="bg-white rounded-lg shadow-soft overflow-hidden">
@@ -65,40 +69,23 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
         <table className="min-w-full divide-y divide-neutral-200">
           <thead className="bg-neutral-50">
             <tr>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Prontuário
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Paciente
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Tipo
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Início
               </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              {/* REMOVIDA: Coluna Status */}
+              {/* <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Status
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider"
-              >
+              </th> */}
+              <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-neutral-500 uppercase tracking-wider">
                 Ações
               </th>
             </tr>
@@ -106,13 +93,13 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
           <tbody className="bg-white divide-y divide-neutral-200">
             {isLoading ? (
               <tr>
-                <td colSpan={6} className="px-6 py-4 text-center text-neutral-500">
+                <td colSpan={5} className="px-6 py-4 text-center text-neutral-500">
                   Carregando prontuários...
                 </td>
               </tr>
             ) : prontuarios.length === 0 ? (
               <tr>
-                <td colSpan={6} className="px-6 py-4 text-center text-neutral-500">
+                <td colSpan={5} className="px-6 py-4 text-center text-neutral-500">
                   Nenhum prontuário encontrado
                 </td>
               </tr>
@@ -128,35 +115,31 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-neutral-900">{prontuario.paciente.nome}</div>
-                    <div className="text-xs text-neutral-500">CPF: {prontuario.paciente.cpf}</div>
+                    {/* ALTERAÇÃO AQUI: Acessando 'nomePaciente' diretamente */}
+                    <div className="text-sm text-neutral-900">{prontuario.nomePaciente}</div>
+                    {/* REMOVIDO: O CPF não está disponível no objeto Prontuario vindo do backend */}
+                    {/* <div className="text-xs text-neutral-500">CPF: {prontuario.paciente.cpf}</div> */}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
                     {renderTipoTratamento(prontuario.tipoTratamento)}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-neutral-700">
-                    {formatData(prontuario.dataInicio)}
+                    {/* Usando 'dataCriacao' que vem do backend, pois 'dataInicio' não existe */}
+                    {formatData(prontuario.dataCriacao)} 
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  {/* REMOVIDA: Célula do Status */}
+                  {/* <td className="px-6 py-4 whitespace-nowrap">
                     {renderStatus(prontuario.status)}
-                  </td>
+                  </td> */}
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm">
                     <div className="flex justify-end space-x-2">
                       <Link to={`/prontuarios/${prontuario.id}`}>
-                        <Button
-                          variant="secondary"
-                          size="sm"
-                          leftIcon={<Eye className="h-4 w-4" />}
-                        >
+                        <Button variant="secondary" size="sm" leftIcon={<Eye className="h-4 w-4" />}>
                           Ver
                         </Button>
                       </Link>
                       <Link to={`/prontuarios/${prontuario.id}/editar`}>
-                        <Button
-                          variant="primary"
-                          size="sm"
-                          leftIcon={<Edit className="h-4 w-4" />}
-                        >
+                        <Button variant="primary" size="sm" leftIcon={<Edit className="h-4 w-4" />}>
                           Editar
                         </Button>
                       </Link>
@@ -169,6 +152,7 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
         </table>
       </div>
 
+      {/* A seção de paginação permanece, mas sua utilidade dependerá da implementação no backend */}
       {totalPages > 1 && (
         <div className="bg-white px-4 py-3 flex items-center justify-between border-t border-neutral-200 sm:px-6">
           <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
@@ -191,7 +175,6 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
                   <span className="sr-only">Anterior</span>
                   <ChevronLeft className="h-5 w-5" aria-hidden="true" />
                 </button>
-                
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <button
                     key={page}
@@ -205,7 +188,6 @@ const ProntuarioTable: React.FC<ProntuarioTableProps> = ({
                     {page}
                   </button>
                 ))}
-                
                 <button
                   onClick={() => onPageChange(currentPage + 1)}
                   disabled={currentPage === totalPages}

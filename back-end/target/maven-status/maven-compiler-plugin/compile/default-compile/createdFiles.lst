@@ -1,6 +1,7 @@
 com/hmpsicoterapia/exception/GlobalExceptionHandler.class
 com/hmpsicoterapia/security/JwtTokenFilter.class
 com/hmpsicoterapia/repository/AdminRepository.class
+com/hmpsicoterapia/entity/Paciente.class
 com/hmpsicoterapia/dto/ProntuarioDTO.class
 com/hmpsicoterapia/controller/AdminController$JwtResponse.class
 com/hmpsicoterapia/model/Admin.class
@@ -14,5 +15,6 @@ com/hmpsicoterapia/entity/Admin.class
 com/hmpsicoterapia/repository/ProntuarioRepository.class
 com/hmpsicoterapia/controller/AdminController$LoginRequest.class
 com/hmpsicoterapia/security/JwtTokenProvider.class
+com/hmpsicoterapia/dto/PacienteDTO.class
 com/hmpsicoterapia/dto/AdminRegisterDTO.class
 com/hmpsicoterapia/controller/ProntuarioController.class
