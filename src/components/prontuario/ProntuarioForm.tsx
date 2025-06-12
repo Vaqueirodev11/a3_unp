@@ -10,7 +10,7 @@ import Button from '../ui/Button';
 import { Genero, TipoTratamento, NovoProntuarioRequest } from '../../types/prontuario';
 import { ChevronRight, ChevronLeft, Save, User, Phone, Mail, MapPin, Calendar, FileText } from 'lucide-react';
 
-// Validador de CPF (função auxiliar)
+// Validador de CPF (função auxiliar com lógica restaurada)
 const validarCPF = (cpf: string) => {
   cpf = cpf.replace(/[^\d]/g, '');
   if (cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -27,22 +27,21 @@ const validarCPF = (cpf: string) => {
   return true;
 };
 
-// Validador de telefone (função auxiliar)
+// Validador de telefone (função auxiliar com lógica restaurada)
 const validarTelefone = (telefone: string) => {
   return /^\d{10,11}$/.test(telefone.replace(/[^\d]/g, ''));
 };
 
-// Validador de CEP (função auxiliar)
+// Validador de CEP (função auxiliar com lógica restaurada)
 const validarCEP = (cep: string) => {
   return /^\d{8}$/.test(cep.replace(/[^\d]/g, ''));
 };
 
-// Schema de validação com Zod. Define todas as regras para os campos do formulário.
-// Agora que o backend foi ajustado, estas regras são muito importantes.
+// Schema de validação com Zod.
 const prontuarioSchema = z.object({
   paciente: z.object({
     nome: z.string().min(3, 'Nome deve ter pelo menos 3 caracteres'),
-    dataNascimento: z.string().refine(val => !isNaN(Date.parse(val)), {
+    dataNascimento: z.string().refine(val => val && !isNaN(Date.parse(val)), {
       message: 'Data de nascimento inválida',
     }),
     cpf: z.string().refine(validarCPF, { message: 'CPF inválido' }),
@@ -124,6 +123,7 @@ const InformacoesTratamentoStep: React.FC = () => {
   );
 };
 
+
 // --- Componente Principal do Formulário ---
 
 interface ProntuarioFormProps {
@@ -141,7 +141,6 @@ const ProntuarioForm: React.FC<ProntuarioFormProps> = ({
   
   const methods = useForm<ProntuarioFormData>({
     resolver: zodResolver(prontuarioSchema),
-    // Define os valores iniciais (para edição) ou padrão (para criação)
     defaultValues: initialData || {
       paciente: {
         nome: '', dataNascimento: '', cpf: '', genero: Genero.NAO_INFORMADO,
@@ -160,25 +159,27 @@ const ProntuarioForm: React.FC<ProntuarioFormProps> = ({
     { title: 'Informações de Tratamento', component: <InformacoesTratamentoStep /> },
   ];
   
-  // Função para avançar para a próxima etapa, validando os campos da etapa atual
   const nextStep = async () => {
-    // Lista de campos a serem validados na primeira etapa
-    const fieldsToValidate: (keyof ProntuarioFormData['paciente'])[] = [
-        'nome', 'dataNascimento', 'cpf', 'genero', 'telefone', 'email',
-        'endereco.cep', 'endereco.logradouro', 'endereco.numero', 
-        'endereco.bairro', 'endereco.cidade', 'endereco.estado'
+    const fieldsToValidate: (keyof ProntuarioFormData['paciente'] | `paciente.endereco.${keyof ProntuarioFormData['paciente']['endereco']}`)[] = [
+        'paciente.nome', 
+        'paciente.dataNascimento', 
+        'paciente.cpf', 
+        'paciente.genero', 
+        'paciente.telefone', 
+        'paciente.email',
+        'paciente.endereco.cep', 
+        'paciente.endereco.logradouro', 
+        'paciente.endereco.numero', 
+        'paciente.endereco.bairro', 
+        'paciente.endereco.cidade', 
+        'paciente.endereco.estado'
     ];
-    // Adiciona o prefixo 'paciente.' para o trigger do react-hook-form
-    const fullFieldPaths = fieldsToValidate.map(field => `paciente.${field}` as const);
 
-    // Aciona a validação dos campos da primeira etapa
-    const isValid = await methods.trigger(fullFieldPaths);
+    const isValid = await methods.trigger(fieldsToValidate);
     
     if (isValid) {
-      // Se todos os campos forem válidos, avança para a próxima etapa
       setCurrentStep(currentStep + 1);
     } else {
-      // Se houver erros, eles serão exibidos nos campos do formulário automaticamente
       console.log("Validação falhou. Erros:", methods.formState.errors);
     }
   };
@@ -188,15 +189,21 @@ const ProntuarioForm: React.FC<ProntuarioFormProps> = ({
   };
   
   const handleFormSubmit = methods.handleSubmit((data) => {
-    // Chama a função onSubmit (passada por ProntuarioCreatePage ou ProntuarioEditPage)
-    // com os dados validados
-    onSubmit(data as NovoProntuarioRequest);
+    const { endereco, nome, ...pacienteRest } = data.paciente;
+    const paciente = { ...pacienteRest, ...endereco, nome };
+    // Inclua nome_paciente no payload, se necessário
+    const payload = { 
+      ...data, 
+      paciente,
+      nome_paciente: nome // ajuste conforme o backend espera
+    };
+    onSubmit(payload as NovoProntuarioRequest);
   });
   
   return (
     <FormProvider {...methods}>
       <form onSubmit={handleFormSubmit}>
-        {/* Stepper (indicador de etapas) */}
+        {/* Stepper */}
         <div className="mb-8">
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
