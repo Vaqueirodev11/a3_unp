@@ -25,6 +25,7 @@ import ProntuarioEditPage from './pages/prontuario/ProntuarioEditPage';
 // Pages - Other
 import HomePage from './pages/home/HomePage';
 import NotFoundPage from './pages/error/NotFoundPage';
+import ForbiddenPage from './pages/error/ForbiddenPage';
 
 function App() {
   return (
@@ -57,7 +58,8 @@ function App() {
           {/* Redirect /home to / */}
           <Route path="/home" element={<Navigate to="/" replace />} />
           
-          {/* 404 - Not Found */}
+          {/* Error Pages */}
+          <Route path="/sem-permissao" element={<ForbiddenPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Router>

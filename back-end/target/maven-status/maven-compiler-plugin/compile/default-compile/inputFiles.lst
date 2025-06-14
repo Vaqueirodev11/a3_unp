@@ -1,3 +1,5 @@
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/entity/StatusTratamento.java
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/AnotacaoDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/entity/Admin.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/service/AdminService.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/repository/AdminRepository.java
@@ -6,13 +8,17 @@
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/exception/GlobalExceptionHandler.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/security/JwtTokenProvider.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/AdminRegisterDTO.java
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/ExameDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/config/SecurityConfig.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/PacienteDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/entity/Prontuario.java
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/MedicacaoDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/model/Admin.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/HmPsicoterapiaApplication.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/controller/ProntuarioController.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/security/JwtTokenFilter.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/repository/ProntuarioRepository.java
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/StatusTratamentoDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/ProntuarioDTO.java
 /home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/controller/AdminController.java
+/home/henrique/Área de Trabalho/front-end/back-end/src/main/java/com/hmpsicoterapia/dto/HistoricoMedicoDTO.java

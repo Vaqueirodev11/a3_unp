@@ -1,153 +1,279 @@
-# HM Psicoterapia - Sistema de Prontuários Eletrônicos
+# HM Psicoterapia
 
-Sistema completo para gerenciamento de prontuários eletrônicos para a clínica HM Psicoterapia, com foco em segurança, usabilidade e conformidade com a LGPD.
+Sistema de gerenciamento para clínicas de psicoterapia, oferecendo funcionalidades para administração de pacientes, prontuários médicos e agendamentos.
 
-## Tecnologias Utilizadas
+## 📋 Índice
 
-- **Frontend**: React 18.3.1 com TypeScript
-- **Estilização**: Tailwind CSS 3.4.1
-- **Gerenciamento de Estado**: Context API
-- **Roteamento**: React Router 6.22.0
-- **Validação de Formulários**: React Hook Form + Zod
-- **Requisições HTTP**: Axios 1.6.2
-- **Icons**: Lucide React 0.344.0
+- [Visão Geral](#visão-geral)
+- [Arquitetura](#arquitetura)
+- [Tecnologias](#tecnologias)
+- [Funcionalidades](#funcionalidades)
+- [Pré-requisitos](#pré-requisitos)
+- [Instalação](#instalação)
+- [Configuração](#configuração)
+- [Uso](#uso)
+- [API](#api)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Testes](#testes)
+- [Contribuição](#contribuição)
+- [Licença](#licença)
+- [Contato](#contato)
 
-## Estrutura do Projeto
+## 🔍 Visão Geral
 
+HM Psicoterapia é uma aplicação web completa para gerenciamento de clínicas de psicoterapia. O sistema permite o cadastro e acompanhamento de pacientes, gerenciamento de prontuários médicos, histórico de tratamentos, medicações, exames e agendamento de consultas.
+
+A aplicação foi desenvolvida seguindo os princípios de Clean Architecture e SOLID, garantindo um código modular, testável e de fácil manutenção.
+
+## 🏗️ Arquitetura
+
+O projeto segue a arquitetura Clean Architecture, dividida em camadas com responsabilidades bem definidas:
+
+### Frontend (React/TypeScript)
 ```
 src/
-├── components/     # Componentes reutilizáveis
-│   ├── auth/       # Componentes de autenticação
-│   ├── layout/     # Componentes de layout (Header, Footer, etc)
-│   ├── prontuario/ # Componentes relacionados a prontuários
-│   └── ui/         # Componentes de UI base (Button, Input, etc)
-├── context/        # Contextos React
-├── pages/          # Componentes de páginas
-│   ├── auth/       # Páginas de autenticação
-│   ├── error/      # Páginas de erro
-│   ├── home/       # Página inicial
-│   ├── profile/    # Página de perfil
-│   └── prontuario/ # Páginas de prontuários
-├── routes/         # Componentes de roteamento (ProtectedRoute, PublicRoute)
-├── services/       # Serviços de API
-├── types/          # Tipos TypeScript
-└── utils/          # Funções utilitárias
+├── domain/                  # Regras de negócio e entidades
+│   ├── entities/            # Interfaces e tipos de domínio
+│   ├── repositories/        # Interfaces de repositório
+│   └── usecases/            # Regras de negócio específicas
+├── application/             # Lógica de aplicação
+│   ├── services/            # Serviços que implementam casos de uso
+│   └── state/               # Gerenciamento de estado (contexts)
+├── infrastructure/          # Implementações externas
+│   ├── api/                 # Adaptadores de API
+│   └── http/                # Cliente HTTP
+└── presentation/            # Interface do usuário
+    ├── components/          # Componentes reutilizáveis
+    ├── layouts/             # Layouts de página
+    ├── pages/               # Páginas da aplicação
+    ├── hooks/               # Hooks personalizados
+    └── routes/              # Configuração de rotas
 ```
 
-## Funcionalidades
+### Backend (Java Spring Boot)
+```
+back-end/src/main/java/com/hmpsicoterapia/
+├── domain/                  # Regras de negócio e entidades
+│   ├── entities/            # Entidades de domínio
+│   ├── repositories/        # Interfaces de repositório
+│   └── services/            # Interfaces de serviço
+├── application/             # Lógica de aplicação
+│   ├── dtos/                # Objetos de transferência de dados
+│   └── usecases/            # Implementações de casos de uso
+├── infrastructure/          # Implementações externas
+│   ├── config/              # Configurações
+│   ├── persistence/         # Implementações de repositório
+│   └── security/            # Configuração de segurança
+└── presentation/            # Interface com o usuário
+    ├── controllers/         # Controladores REST
+    └── exceptions/          # Tratamento de exceções
+```
 
-### Autenticação
-- Registro de usuário administrador (UC01)
-- Login com autenticação JWT (UC02)
+## 🛠️ Tecnologias
+
+### Frontend
+- **React**: Biblioteca JavaScript para construção de interfaces
+- **TypeScript**: Superset tipado de JavaScript
+- **Vite**: Ferramenta de build rápida
+- **Tailwind CSS**: Framework CSS utilitário
+- **React Router**: Roteamento para React
+- **Axios**: Cliente HTTP baseado em Promises
+
+### Backend
+- **Java**: Linguagem de programação
+- **Spring Boot**: Framework para desenvolvimento de aplicações Java
+- **Spring Security**: Segurança e autenticação
+- **Spring Data JPA**: Persistência de dados
+- **JWT**: Autenticação baseada em tokens
+- **PostgreSQL**: Banco de dados relacional
+
+## ✨ Funcionalidades
+
+### Gestão de Pacientes
+- Cadastro completo de pacientes
+- Histórico de atendimentos
+- Dados de contato e informações pessoais
+
+### Prontuários Médicos
+- Criação e edição de prontuários
+- Registro de histórico médico
+- Acompanhamento de medicações
+- Registro de exames
+- Anotações de consultas
+
+### Tratamentos
+- Registro de tipos de tratamento
+- Acompanhamento de status do tratamento
+- Histórico de evolução
+
+### Autenticação e Segurança
+- Login seguro
+- Autenticação baseada em JWT
+- Controle de acesso baseado em perfis
 - Recuperação de senha
-- Proteção de rotas
 
-### Prontuários
-- Busca avançada de prontuários com múltiplos filtros (UC03)
-- Criação de prontuários com validação (UC04)
-- Visualização detalhada de prontuários (UC05)
-- Edição de prontuários (UC06)
+## 📋 Pré-requisitos
 
-### Administrador
-- Atualização de dados cadastrais (UC07)
-- Alteração de senha (UC08)
-
-## Requisitos Não-Funcionais Implementados
-
-- **Interface responsiva**: Design adaptativo para todas as telas (mobile, tablet, desktop)
-- **Acessibilidade**: Seguindo padrões WCAG
-- **Segurança**: Armazenamento seguro de tokens, proteção contra ataques XSS
-- **Performance**: Carregamento rápido e otimizado
-- **Usabilidade**: Interface intuitiva com feedback visual para ações
-
-## Como Executar o Projeto
-
-### Pré-requisitos
-- Node.js 18+ instalado
+### Frontend
+- Node.js (v14+)
 - npm ou yarn
 
-### Instalação
+### Backend
+- Java JDK 11+
+- Maven
+- PostgreSQL
 
-1. Clone o repositório
+## 🚀 Instalação
+
+### Clonando o Repositório
 ```bash
-git clone https://github.com/seu-usuario/hm-psicoterapia-frontend.git
-cd hm-psicoterapia-frontend
+git clone https://github.com/seu-usuario/hmpsicoterapia.git
+cd hmpsicoterapia
 ```
 
-2. Instale as dependências
+### Frontend
 ```bash
+cd front-end
 npm install
-# ou
-yarn
 ```
 
-3. Crie um arquivo `.env` na raiz do projeto
+### Backend
+```bash
+cd back-end
+mvn clean install
+```
+
+## ⚙️ Configuração
+
+### Frontend
+Crie um arquivo `.env` na raiz do diretório `front-end` com as seguintes variáveis:
+
 ```
 VITE_API_URL=http://localhost:8080/api
 ```
 
-4. Inicie o servidor de desenvolvimento
+### Backend
+Configure o arquivo `application.properties` em `back-end/src/main/resources/`:
+
+```properties
+# Banco de Dados
+spring.datasource.url=jdbc:postgresql://localhost:5432/hmpsicoterapia
+spring.datasource.username=seu_usuario
+spring.datasource.password=sua_senha
+spring.jpa.hibernate.ddl-auto=update
+
+# JWT
+jwt.secret=seu_segredo_jwt
+jwt.expiration=86400000
+
+# Email (para recuperação de senha)
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=seu_email@gmail.com
+spring.mail.password=sua_senha_de_app
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+```
+
+## 🖥️ Uso
+
+### Iniciando o Backend
 ```bash
+cd back-end
+mvn spring-boot:run
+```
+
+O servidor estará disponível em `http://localhost:8080`.
+
+### Iniciando o Frontend
+```bash
+cd front-end
 npm run dev
-# ou
-yarn dev
 ```
 
-5. Acesse o aplicativo em `http://localhost:5173`
+A aplicação estará disponível em `http://localhost:5173`.
 
-## Exemplos de Requisições à API
+### Acesso Inicial
+- **URL**: http://localhost:5173
+- **Usuário Admin**: admin@hmpsicoterapia.com
+- **Senha**: admin123
 
-### Login
-```typescript
-// POST /api/auth/login
-const login = async (credentials: LoginCredentials) => {
-  try {
-    const response = await api.post('/auth/login', credentials);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+Recomendamos alterar a senha após o primeiro acesso.
+
+## 📡 API
+
+A API REST do backend está disponível em `http://localhost:8080/api`.
+
+### Endpoints Principais
+
+#### Autenticação
+- `POST /api/auth/login` - Login de usuário
+- `POST /api/auth/register` - Registro de novo administrador
+- `POST /api/auth/reset-password` - Solicitar redefinição de senha
+
+#### Prontuários
+- `GET /api/prontuarios` - Listar todos os prontuários
+- `GET /api/prontuarios/{id}` - Obter prontuário específico
+- `POST /api/prontuarios` - Criar novo prontuário
+- `PUT /api/prontuarios/{id}` - Atualizar prontuário
+- `DELETE /api/prontuarios/{id}` - Excluir prontuário
+
+#### Pacientes
+- `GET /api/pacientes` - Listar todos os pacientes
+- `GET /api/pacientes/{id}` - Obter paciente específico
+- `POST /api/pacientes` - Criar novo paciente
+- `PUT /api/pacientes/{id}` - Atualizar paciente
+- `DELETE /api/pacientes/{id}` - Excluir paciente
+
+Para documentação completa da API, acesse `http://localhost:8080/swagger-ui.html` após iniciar o backend.
+
+## 📂 Estrutura do Projeto
+
+### Diretórios Principais
+
+#### Frontend
+- `src/domain/entities`: Definições de tipos e interfaces
+- `src/application/services`: Serviços para comunicação com a API
+- `src/application/state`: Gerenciamento de estado global
+- `src/presentation/components`: Componentes React reutilizáveis
+- `src/presentation/pages`: Páginas da aplicação
+- `public`: Arquivos estáticos
+
+#### Backend
+- `src/main/java/com/hmpsicoterapia/domain/entities`: Entidades JPA
+- `src/main/java/com/hmpsicoterapia/application/usecases`: Serviços de negócio
+- `src/main/java/com/hmpsicoterapia/presentation/controllers`: Controladores REST
+- `src/main/resources`: Configurações e recursos
+
+## 🧪 Testes
+
+### Frontend
+```bash
+cd front-end
+npm test
 ```
 
-### Buscar Prontuários
-```typescript
-// GET /api/prontuarios
-const buscarProntuarios = async (params: BuscaProntuarioParams) => {
-  try {
-    const response = await api.get('/prontuarios', { params });
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
+### Backend
+```bash
+cd back-end
+mvn test
 ```
 
-### Criar Prontuário
-```typescript
-// POST /api/prontuarios
-const criarProntuario = async (dados: NovoProntuarioRequest) => {
-  try {
-    const response = await api.post('/prontuarios', dados);
-    return response.data;
-  } catch (error) {
-    throw error;
-  }
-};
-```
+## 🤝 Contribuição
 
-## Convenções de Código
+1. Faça um fork do projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/nova-feature`)
+3. Faça commit das suas alterações (`git commit -m 'Adiciona nova feature'`)
+4. Faça push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
 
-- **Nomenclatura**: camelCase para variáveis e funções; PascalCase para componentes e interfaces
-- **Indentação**: 2 espaços
-- **Componentes**: Um componente por arquivo
-- **Tipos**: Interfaces TypeScript para todos os objetos
-- **Estilização**: Classes Tailwind para estilização
-- **Formulários**: React Hook Form com Zod para validação
+### Padrões de Código
 
-## Próximos Passos
+- Siga os princípios SOLID e Clean Architecture
+- Mantenha a cobertura de testes
+- Documente novas funcionalidades
+- Siga o estilo de código do projeto
 
-- Implementação de testes unitários e de integração
-- Adição de funcionalidade de exportação de prontuários para PDF
-- Implementação de sistema de notificações
-- Suporte a múltiplos idiomas
+## 📄 Licença
+
+Este projeto está licenciado sob a licença MIT - veja o arquivo [LICENSE.md](LICENSE.md) para detalhes.
