@@ -264,13 +264,6 @@ docker-compose logs -f
 
 Para mais detalhes sobre a configuração Docker, consulte o arquivo [README.docker.md](README.docker.md).
 
-### Correções Recentes
-
-#### Visualização de Anotações
-Foi corrigido um problema onde as anotações de prontuário não estavam sendo exibidas corretamente. As anotações são armazenadas no campo `condicoesClinicas` do prontuário, e o componente agora está configurado para exibir esse campo na aba de anotações.
-
-#### CPF Aleatório no Formulário de Criação
-Foi corrigido um problema onde o campo CPF estava sendo preenchido automaticamente com caracteres aleatórios ao criar um novo prontuário. O campo CPF agora inicia vazio por padrão, permitindo que o usuário insira o CPF manualmente.
 
 ## 📡 API
 
