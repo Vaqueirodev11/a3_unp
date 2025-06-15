@@ -1,7 +1,7 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/dto/ProntuarioDTO.java
-package com.hmpsicoterapia.dto;
+package com.hmpsicoterapia.application.dtos;
 
-import com.hmpsicoterapia.entity.StatusTratamento;
+import com.hmpsicoterapia.domain.entities.StatusTratamento;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

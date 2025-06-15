@@ -1,13 +1,13 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/service/ProntuarioService.java
-package com.hmpsicoterapia.service;
+package com.hmpsicoterapia.application.usecases;
 
-import com.hmpsicoterapia.dto.PacienteDTO;
-import com.hmpsicoterapia.dto.ProntuarioDTO;
-import com.hmpsicoterapia.dto.StatusTratamentoDTO;
-import com.hmpsicoterapia.entity.Paciente;
-import com.hmpsicoterapia.entity.Prontuario;
-import com.hmpsicoterapia.entity.StatusTratamento;
-import com.hmpsicoterapia.repository.ProntuarioRepository;
+import com.hmpsicoterapia.application.dtos.PacienteDTO;
+import com.hmpsicoterapia.application.dtos.ProntuarioDTO;
+import com.hmpsicoterapia.application.dtos.StatusTratamentoDTO;
+import com.hmpsicoterapia.domain.entities.Paciente;
+import com.hmpsicoterapia.domain.entities.Prontuario;
+import com.hmpsicoterapia.domain.entities.StatusTratamento;
+import com.hmpsicoterapia.domain.repositories.ProntuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -167,7 +167,7 @@ public class ProntuarioService {
      * @param usuarioResponsavel Nome do usuário responsável pela adição
      * @return Prontuário atualizado
      */
-    public Prontuario adicionarMedicacao(Long id, com.hmpsicoterapia.dto.MedicacaoDTO medicacaoDTO, String usuarioResponsavel) {
+    public Prontuario adicionarMedicacao(Long id, com.hmpsicoterapia.application.dtos.MedicacaoDTO medicacaoDTO, String usuarioResponsavel) {
         Prontuario prontuario = prontuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Prontuário não encontrado"));
         
@@ -208,7 +208,7 @@ public class ProntuarioService {
      * @param usuarioResponsavel Nome do usuário responsável pela adição
      * @return Prontuário atualizado
      */
-    public Prontuario adicionarExame(Long id, com.hmpsicoterapia.dto.ExameDTO exameDTO, String usuarioResponsavel) {
+    public Prontuario adicionarExame(Long id, com.hmpsicoterapia.application.dtos.ExameDTO exameDTO, String usuarioResponsavel) {
         Prontuario prontuario = prontuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Prontuário não encontrado"));
         
@@ -249,7 +249,7 @@ public class ProntuarioService {
      * @param usuarioResponsavel Nome do usuário responsável pela adição
      * @return Prontuário atualizado
      */
-    public Prontuario adicionarAnotacao(Long id, com.hmpsicoterapia.dto.AnotacaoDTO anotacaoDTO, String usuarioResponsavel) {
+    public Prontuario adicionarAnotacao(Long id, com.hmpsicoterapia.application.dtos.AnotacaoDTO anotacaoDTO, String usuarioResponsavel) {
         Prontuario prontuario = prontuarioRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Prontuário não encontrado"));
         

@@ -1,10 +1,10 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/controller/AdminController.java
-package com.hmpsicoterapia.controller;
+package com.hmpsicoterapia.presentation.controllers;
 
-import com.hmpsicoterapia.dto.AdminRegisterDTO;
-import com.hmpsicoterapia.entity.Admin;
-import com.hmpsicoterapia.security.JwtTokenProvider;
-import com.hmpsicoterapia.service.AdminService;
+import com.hmpsicoterapia.application.dtos.AdminRegisterDTO;
+import com.hmpsicoterapia.domain.entities.Admin;
+import com.hmpsicoterapia.infrastructure.security.JwtTokenProvider;
+import com.hmpsicoterapia.application.usecases.AdminService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

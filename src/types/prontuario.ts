@@ -115,11 +115,25 @@ export interface Prontuario {
   dataAlta?: string;       // Data da alta médica (se aplicável)
   motivoAlta?: string;     // Motivo da alta médica (se aplicável)
   
-  // As propriedades abaixo não existem na entidade Prontuario.java do seu backend
-  // e causarão erros se usadas. Elas foram comentadas ou precisam ser removidas
-  // dos componentes que as utilizam (ex: ProntuarioDetailPage, ProntuarioTable).
-  // paciente: Paciente; // Causa principal do erro
-  // status: StatusProntuario;
+  // Adicionando a propriedade paciente para corresponder à relação OneToOne no backend
+  paciente?: {
+    id?: number;
+    nome?: string;
+    dataNascimento?: string;
+    cpf?: string;
+    genero?: string;
+    telefone?: string;
+    email?: string;
+    logradouro?: string;
+    numero?: string;
+    complemento?: string;
+    bairro?: string;
+    cidade?: string;
+    estado?: string;
+    cep?: string;
+  };
+  
+  // status: StatusProntuario; // Removido pois não existe no backend
 }
 
 

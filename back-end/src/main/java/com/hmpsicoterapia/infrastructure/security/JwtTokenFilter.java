@@ -1,7 +1,7 @@
-package com.hmpsicoterapia.security;
+package com.hmpsicoterapia.infrastructure.security;
 
 // Mantenha os imports existentes (UserDetailsService, JwtTokenProvider, etc.)
-import com.hmpsicoterapia.service.AdminService;
+import com.hmpsicoterapia.application.usecases.AdminService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

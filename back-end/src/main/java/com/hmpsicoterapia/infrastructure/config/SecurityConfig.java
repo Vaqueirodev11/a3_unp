@@ -1,7 +1,7 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/config/SecurityConfig.java
-package com.hmpsicoterapia.config;
+package com.hmpsicoterapia.infrastructure.config;
 
-import com.hmpsicoterapia.security.JwtTokenFilter;
+import com.hmpsicoterapia.infrastructure.security.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -68,6 +68,9 @@ public class SecurityConfig {
                                  "/api/admin/password-reset-request", 
                                  "/api/admin/reset-password").permitAll()
                 
+                // Permite acesso público aos endpoints do actuator
+                .requestMatchers("/actuator/**").permitAll()
+                
                 // Exige autenticação para todas as outras requisições
                 .anyRequest().authenticated()
             )
@@ -81,7 +84,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Permite requisições da origem do seu frontend
-        configuration.setAllowedOrigins(List.of("http://localhost:5173"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost", "http://frontend"));
         // Define os métodos HTTP permitidos
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
         // Permite todos os cabeçalhos
@@ -90,8 +93,9 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Aplica esta configuração para todos os endpoints sob /api/
+        // Aplica esta configuração para todos os endpoints sob /api/ e /actuator/
         source.registerCorsConfiguration("/api/**", configuration);
+        source.registerCorsConfiguration("/actuator/**", configuration);
         return source;
     }
 }

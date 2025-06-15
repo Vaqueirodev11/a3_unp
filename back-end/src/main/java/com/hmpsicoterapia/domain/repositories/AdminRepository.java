@@ -1,6 +1,6 @@
-package com.hmpsicoterapia.repository;
+package com.hmpsicoterapia.domain.repositories;
 
-import com.hmpsicoterapia.entity.Admin; // Certifique-se que está usando a entidade JPA correta
+import com.hmpsicoterapia.domain.entities.Admin; // Entidade JPA do domínio
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

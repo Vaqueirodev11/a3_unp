@@ -1,4 +1,4 @@
-package com.hmpsicoterapia.exception;
+package com.hmpsicoterapia.presentation.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

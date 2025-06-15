@@ -1,4 +1,4 @@
-package com.hmpsicoterapia.entity;
+package com.hmpsicoterapia.domain.entities;
 
 public enum StatusTratamento {
     EM_TRATAMENTO,

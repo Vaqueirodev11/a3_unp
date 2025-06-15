@@ -1,5 +1,4 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/dto/PacienteDTO.java
-package com.hmpsicoterapia.dto;
+package com.hmpsicoterapia.application.dtos;
 
 import lombok.Data;
 import jakarta.validation.constraints.*;

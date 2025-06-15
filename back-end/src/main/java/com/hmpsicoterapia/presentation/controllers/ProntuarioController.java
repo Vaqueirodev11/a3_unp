@@ -1,13 +1,13 @@
-package com.hmpsicoterapia.controller;
+package com.hmpsicoterapia.presentation.controllers;
 
-import com.hmpsicoterapia.dto.AnotacaoDTO;
-import com.hmpsicoterapia.dto.ExameDTO;
-import com.hmpsicoterapia.dto.HistoricoMedicoDTO;
-import com.hmpsicoterapia.dto.MedicacaoDTO;
-import com.hmpsicoterapia.dto.ProntuarioDTO;
-import com.hmpsicoterapia.dto.StatusTratamentoDTO;
-import com.hmpsicoterapia.entity.Prontuario;
-import com.hmpsicoterapia.service.ProntuarioService;
+import com.hmpsicoterapia.application.dtos.AnotacaoDTO;
+import com.hmpsicoterapia.application.dtos.ExameDTO;
+import com.hmpsicoterapia.application.dtos.HistoricoMedicoDTO;
+import com.hmpsicoterapia.application.dtos.MedicacaoDTO;
+import com.hmpsicoterapia.application.dtos.ProntuarioDTO;
+import com.hmpsicoterapia.application.dtos.StatusTratamentoDTO;
+import com.hmpsicoterapia.domain.entities.Prontuario;
+import com.hmpsicoterapia.application.usecases.ProntuarioService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

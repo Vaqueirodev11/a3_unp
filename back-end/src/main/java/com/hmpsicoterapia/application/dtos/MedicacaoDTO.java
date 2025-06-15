@@ -1,4 +1,4 @@
-package com.hmpsicoterapia.dto;
+package com.hmpsicoterapia.application.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;

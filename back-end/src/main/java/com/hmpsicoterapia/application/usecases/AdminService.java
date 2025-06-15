@@ -1,9 +1,9 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/service/AdminService.java
-package com.hmpsicoterapia.service;
+package com.hmpsicoterapia.application.usecases;
 
-import com.hmpsicoterapia.dto.AdminRegisterDTO;
-import com.hmpsicoterapia.entity.Admin;
-import com.hmpsicoterapia.repository.AdminRepository;
+import com.hmpsicoterapia.application.dtos.AdminRegisterDTO;
+import com.hmpsicoterapia.domain.entities.Admin;
+import com.hmpsicoterapia.domain.repositories.AdminRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

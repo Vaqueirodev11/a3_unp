@@ -1,0 +1,57 @@
+
+services:
+  # Frontend service
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "80:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # Backend service
+  backend:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - app-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+
+  # Database service
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=hmpsicoterapia
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

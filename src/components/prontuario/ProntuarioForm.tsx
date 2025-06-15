@@ -27,38 +27,6 @@ const validarCPF = (cpf: string) => {
   return true;
 };
 
-// Gerador de CPF aleatório para testes
-const gerarCPFAleatorio = () => {
-  const num1 = Math.floor(Math.random() * 999);
-  const num2 = Math.floor(Math.random() * 999);
-  const num3 = Math.floor(Math.random() * 99);
-  
-  let cpf = `${num1.toString().padStart(3, '0')}${num2.toString().padStart(3, '0')}${num3.toString().padStart(2, '0')}`;
-  
-  // Calcula o primeiro dígito verificador
-  let soma = 0;
-  for (let i = 0; i < 9; i++) {
-    soma += parseInt(cpf.charAt(i)) * (10 - i);
-  }
-  let resto = 11 - (soma % 11);
-  const dv1 = resto === 10 || resto === 11 ? 0 : resto;
-  
-  // Adiciona o primeiro dígito verificador
-  cpf += dv1;
-  
-  // Calcula o segundo dígito verificador
-  soma = 0;
-  for (let i = 0; i < 10; i++) {
-    soma += parseInt(cpf.charAt(i)) * (11 - i);
-  }
-  resto = 11 - (soma % 11);
-  const dv2 = resto === 10 || resto === 11 ? 0 : resto;
-  
-  // Adiciona o segundo dígito verificador
-  cpf += dv2;
-  
-  return cpf;
-};
 
 // Validador de telefone (função auxiliar com lógica restaurada)
 const validarTelefone = (telefone: string) => {
@@ -176,7 +144,7 @@ const ProntuarioForm: React.FC<ProntuarioFormProps> = ({
     resolver: zodResolver(prontuarioSchema),
     defaultValues: initialData || {
       paciente: {
-        nome: '', dataNascimento: '', cpf: gerarCPFAleatorio(), genero: Genero.NAO_INFORMADO,
+        nome: '', dataNascimento: '', cpf: '', genero: Genero.NAO_INFORMADO,
         telefone: '', email: '',
         endereco: {
           logradouro: '', numero: '', complemento: '', bairro: '', cidade: '', estado: '', cep: '',

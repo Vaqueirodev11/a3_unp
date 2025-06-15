@@ -1,7 +1,7 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/repository/ProntuarioRepository.java
-package com.hmpsicoterapia.repository;
+package com.hmpsicoterapia.domain.repositories;
 
-import com.hmpsicoterapia.entity.Prontuario;
+import com.hmpsicoterapia.domain.entities.Prontuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

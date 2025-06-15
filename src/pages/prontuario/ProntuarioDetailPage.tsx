@@ -1,4 +1,4 @@
-// Arquivo: src/pages/prontuario/ProntuarioDetailPage.tsx
+
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -9,7 +9,9 @@ import {
   ArrowLeft,
   Calendar,
   User,
-  // Removido Phone, Mail, MapPin, pois os dados não estão disponíveis
+  Phone,
+  Mail,
+  MapPin,
   FilePlus,
   FileText,
   Activity,
@@ -315,12 +317,61 @@ const ProntuarioDetailPage: React.FC = () => {
             <div className="flex items-start">
               <User className="h-5 w-5 text-neutral-400 mt-0.5 mr-2" />
               <div>
-                {/* ALTERAÇÃO: Usando `nomePaciente` diretamente */}
                 <h3 className="text-sm font-medium text-neutral-900">{prontuario.nomePaciente}</h3>
-                {/* REMOVIDO: Gênero e data de nascimento não estão disponíveis no objeto prontuario */}
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">CPF:</span> {prontuario.paciente?.cpf || 'Não informado'}
+                </p>
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">Data de Nascimento:</span> {prontuario.paciente?.dataNascimento ? formatData(prontuario.paciente.dataNascimento) : 'Não informada'}
+                </p>
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">Gênero:</span> {prontuario.paciente?.genero || 'Não informado'}
+                </p>
               </div>
             </div>
-            {/* REMOVIDO: Seções de Contato e Endereço, pois os dados não são fornecidos pelo backend */}
+            
+            <div className="flex items-start">
+              <Phone className="h-5 w-5 text-neutral-400 mt-0.5 mr-2" />
+              <div>
+                <h3 className="text-sm font-medium text-neutral-900">Contato</h3>
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">Telefone:</span> {prontuario.paciente?.telefone || 'Não informado'}
+                </p>
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">Email:</span> {prontuario.paciente?.email ? (
+                    <a href={`mailto:${prontuario.paciente.email}`} className="text-primary-600 hover:underline flex items-center">
+                      {prontuario.paciente.email}
+                      <Mail className="h-3 w-3 ml-1" />
+                    </a>
+                  ) : 'Não informado'}
+                </p>
+              </div>
+            </div>
+            
+            <div className="flex items-start">
+              <MapPin className="h-5 w-5 text-neutral-400 mt-0.5 mr-2" />
+              <div>
+                <h3 className="text-sm font-medium text-neutral-900">Endereço</h3>
+                <p className="text-sm text-neutral-500">
+                  {prontuario.paciente?.logradouro ? (
+                    <>
+                      {prontuario.paciente.logradouro}, {prontuario.paciente.numero}
+                      {prontuario.paciente.complemento && `, ${prontuario.paciente.complemento}`}
+                    </>
+                  ) : 'Logradouro não informado'}
+                </p>
+                <p className="text-sm text-neutral-500">
+                  {prontuario.paciente?.bairro ? (
+                    <>
+                      {prontuario.paciente.bairro}, {prontuario.paciente.cidade} - {prontuario.paciente.estado}
+                    </>
+                  ) : 'Bairro não informado'}
+                </p>
+                <p className="text-sm text-neutral-500">
+                  <span className="font-medium">CEP:</span> {prontuario.paciente?.cep || 'Não informado'}
+                </p>
+              </div>
+            </div>
           </div>
         </Card>
         
@@ -461,7 +512,7 @@ const ProntuarioDetailPage: React.FC = () => {
         {activeTab === 'historico' && renderContentAsString("Histórico Médico", prontuario.historicoMedico, <Activity className="h-12 w-12 text-neutral-400 mx-auto mb-4" />)}
         {activeTab === 'medicacoes' && renderContentAsString("Medicações", prontuario.medicamentos, <Pill className="h-12 w-12 text-neutral-400 mx-auto mb-4" />)}
         {activeTab === 'exames' && renderContentAsString("Exames", prontuario.exames, <FileImage className="h-12 w-12 text-neutral-400 mx-auto mb-4" />)}
-        {activeTab === 'anotacoes' && renderContentAsString("Anotações", undefined, <MessageSquare className="h-12 w-12 text-neutral-400 mx-auto mb-4" />)}
+        {activeTab === 'anotacoes' && renderContentAsString("Anotações", prontuario.condicoesClinicas, <MessageSquare className="h-12 w-12 text-neutral-400 mx-auto mb-4" />)}
       </div>
       
       {/* Modal para adicionar novo registro de histórico médico */}

@@ -1,4 +1,4 @@
-package com.hmpsicoterapia.security;
+package com.hmpsicoterapia.infrastructure.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys; // Importar Keys da biblioteca jjwt

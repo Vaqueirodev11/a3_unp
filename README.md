@@ -12,6 +12,7 @@ Sistema de gerenciamento para clínicas de psicoterapia, oferecendo funcionalida
 - [Instalação](#instalação)
 - [Configuração](#configuração)
 - [Uso](#uso)
+- [Docker](#docker)
 - [API](#api)
 - [Estrutura do Projeto](#estrutura-do-projeto)
 - [Testes](#testes)
@@ -87,6 +88,11 @@ back-end/src/main/java/com/hmpsicoterapia/
 - **JWT**: Autenticação baseada em tokens
 - **PostgreSQL**: Banco de dados relacional
 
+### DevOps
+- **Docker**: Containerização da aplicação
+- **Docker Compose**: Orquestração de containers
+- **Nginx**: Servidor web para o frontend
+
 ## ✨ Funcionalidades
 
 ### Gestão de Pacientes
@@ -114,14 +120,19 @@ back-end/src/main/java/com/hmpsicoterapia/
 
 ## 📋 Pré-requisitos
 
-### Frontend
+### Desenvolvimento Local
+#### Frontend
 - Node.js (v14+)
 - npm ou yarn
 
-### Backend
+#### Backend
 - Java JDK 11+
 - Maven
 - PostgreSQL
+
+### Usando Docker
+- Docker
+- Docker Compose
 
 ## 🚀 Instalação
 
@@ -131,17 +142,26 @@ git clone https://github.com/seu-usuario/hmpsicoterapia.git
 cd hmpsicoterapia
 ```
 
-### Frontend
+### Instalação para Desenvolvimento Local
+
+#### Frontend
 ```bash
 cd front-end
 npm install
 ```
 
-### Backend
+#### Backend
 ```bash
 cd back-end
 mvn clean install
 ```
+
+### Instalação com Docker
+```bash
+# Na raiz do projeto
+docker-compose up -d
+```
+Isso irá construir e iniciar todos os serviços necessários (frontend, backend e banco de dados).
 
 ## ⚙️ Configuração
 
@@ -177,7 +197,9 @@ spring.mail.properties.mail.smtp.starttls.enable=true
 
 ## 🖥️ Uso
 
-### Iniciando o Backend
+### Desenvolvimento Local
+
+#### Iniciando o Backend
 ```bash
 cd back-end
 mvn spring-boot:run
@@ -185,7 +207,7 @@ mvn spring-boot:run
 
 O servidor estará disponível em `http://localhost:8080`.
 
-### Iniciando o Frontend
+#### Iniciando o Frontend
 ```bash
 cd front-end
 npm run dev
@@ -193,16 +215,66 @@ npm run dev
 
 A aplicação estará disponível em `http://localhost:5173`.
 
+### Usando Docker
+Após executar `docker-compose up -d`, a aplicação estará disponível em:
+- **Frontend**: http://localhost
+- **Backend API**: http://localhost:8080/api
+- **Banco de dados PostgreSQL**: localhost:5433 (acessível via ferramentas como pgAdmin ou DBeaver)
+
 ### Acesso Inicial
-- **URL**: http://localhost:5173
+- **URL**: http://localhost:5173 (desenvolvimento local) ou http://localhost (Docker)
 - **Usuário Admin**: admin@hmpsicoterapia.com
 - **Senha**: admin123
 
 Recomendamos alterar a senha após o primeiro acesso.
 
+## 🐳 Docker
+
+O projeto está configurado para ser executado em containers Docker, facilitando a implantação e garantindo consistência entre ambientes.
+
+### Arquivos de Configuração Docker
+- `docker-compose.yml`: Orquestração dos serviços (frontend, backend, banco de dados)
+- `Dockerfile.frontend`: Configuração para construir a imagem Docker do frontend
+- `back-end/Dockerfile`: Configuração para construir a imagem Docker do backend
+- `nginx.conf`: Configuração do Nginx para o frontend
+- `.env.docker`: Variáveis de ambiente para o frontend no Docker
+- `back-end/src/main/resources/application-docker.properties`: Configuração do Spring Boot para o ambiente Docker
+
+### Comandos Úteis
+
+#### Iniciar todos os serviços
+```bash
+docker-compose up -d
+```
+
+#### Parar todos os serviços
+```bash
+docker-compose down
+```
+
+#### Reconstruir as imagens após alterações no código
+```bash
+docker-compose up -d --build
+```
+
+#### Visualizar logs
+```bash
+docker-compose logs -f
+```
+
+Para mais detalhes sobre a configuração Docker, consulte o arquivo [README.docker.md](README.docker.md).
+
+### Correções Recentes
+
+#### Visualização de Anotações
+Foi corrigido um problema onde as anotações de prontuário não estavam sendo exibidas corretamente. As anotações são armazenadas no campo `condicoesClinicas` do prontuário, e o componente agora está configurado para exibir esse campo na aba de anotações.
+
+#### CPF Aleatório no Formulário de Criação
+Foi corrigido um problema onde o campo CPF estava sendo preenchido automaticamente com caracteres aleatórios ao criar um novo prontuário. O campo CPF agora inicia vazio por padrão, permitindo que o usuário insira o CPF manualmente.
+
 ## 📡 API
 
-A API REST do backend está disponível em `http://localhost:8080/api`.
+A API REST do backend está disponível em `http://localhost:8080/api` (desenvolvimento local) ou `http://localhost/api` (Docker).
 
 ### Endpoints Principais
 

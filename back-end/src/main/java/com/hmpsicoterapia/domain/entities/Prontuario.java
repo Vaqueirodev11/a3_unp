@@ -1,5 +1,5 @@
 // Arquivo: back-end/src/main/java/com/hmpsicoterapia/entity/Prontuario.java
-package com.hmpsicoterapia.entity;
+package com.hmpsicoterapia.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
