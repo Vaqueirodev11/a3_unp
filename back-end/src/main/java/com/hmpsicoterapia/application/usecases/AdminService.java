@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/service/AdminService.java
 package com.hmpsicoterapia.application.usecases;
 
 import com.hmpsicoterapia.application.dtos.AdminRegisterDTO;
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional; // <<--- ADICIONE OU VERIFIQUE ESTA IMPORTAÇÃO
+import java.util.Optional;
 import java.util.UUID;
 import java.time.LocalDateTime;
 
@@ -27,10 +26,10 @@ public class AdminService implements UserDetailsService {
     private final AdminRepository adminRepository;
     private final PasswordEncoder passwordEncoder;
     
-    // Armazenamento temporário de tokens de redefinição de senha (em produção, use um banco de dados)
+    
     private final Map<String, PasswordResetToken> passwordResetTokens = new HashMap<>();
     
-    // Classe interna para armazenar informações do token de redefinição de senha
+    
     private static class PasswordResetToken {
         private final String email;
         private final LocalDateTime expiryDate;
@@ -94,13 +93,13 @@ public class AdminService implements UserDetailsService {
         return adminSalvo;
     }
 
-    // MÉTODO ADICIONADO/VERIFICADO PARA SUPORTE AO /me
+    
     @Transactional(readOnly = true)
     public Optional<Admin> findByEmail(String email) {
         System.out.println("DEBUG: AdminService.findByEmail (método público) chamado para email: " + email);
         return adminRepository.findByEmail(email);
     }
-    // FIM DO MÉTODO ADICIONADO/VERIFICADO
+   
 
     public String getAdminGreeting() {
         return "Olá, Admin! Operação realizada pelo AdminService.";

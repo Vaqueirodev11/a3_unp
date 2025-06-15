@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/dto/ProntuarioDTO.java
 package com.hmpsicoterapia.application.dtos;
 
 import com.hmpsicoterapia.domain.entities.StatusTratamento;
@@ -11,11 +10,11 @@ import java.time.LocalDateTime;
 @Data
 public class ProntuarioDTO {
 
-    @Valid // Garante que as validações dentro de PacienteDTO também sejam aplicadas
-    @NotNull // Agora esta anotação será reconhecida
+    @Valid 
+    @NotNull 
     private PacienteDTO paciente;
     
-    // Campo necessário para satisfazer a restrição not-null no banco de dados
+
     @NotNull(message = "Nome do paciente é obrigatório")
     private String nome_paciente;
 

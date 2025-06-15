@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/entity/Paciente.java
 package com.hmpsicoterapia.domain.entities;
 
 import jakarta.persistence.*;
@@ -30,7 +29,6 @@ public class Paciente {
     private String telefone;
     private String email;
 
-    // Dados de endereço diretamente na entidade Paciente
     private String logradouro;
     private String numero;
     private String complemento;

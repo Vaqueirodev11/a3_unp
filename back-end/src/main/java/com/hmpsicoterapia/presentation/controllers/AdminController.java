@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/controller/AdminController.java
 package com.hmpsicoterapia.presentation.controllers;
 
 import com.hmpsicoterapia.application.dtos.AdminRegisterDTO;
@@ -13,12 +12,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.annotation.AuthenticationPrincipal; // <<--- ADICIONE ESTA IMPORTAÇÃO
-import org.springframework.security.core.userdetails.UserDetails;      // <<--- ADICIONE ESTA IMPORTAÇÃO
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;     
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
-import java.util.Optional; // <<--- ADICIONE ESTA IMPORTAÇÃO
+import java.util.Optional; 
 
 @RestController
 @RequestMapping("/api/admin")
@@ -73,14 +72,6 @@ public class AdminController {
 
         if (adminOptional.isPresent()) {
             Admin admin = adminOptional.get();
-            // Para evitar expor a senhaHash, mesmo que o frontend não a use,
-            // é uma boa prática criar um DTO de resposta.
-            // Exemplo de DTO (você precisaria criar esta classe AdminResponseDTO):
-            // AdminResponseDTO responseDto = new AdminResponseDTO(admin.getId(), admin.getNome(), admin.getEmail(), admin.getCpf(), "ADMIN"); // Supondo um papel
-            // return ResponseEntity.ok(responseDto);
-            
-            // Por simplicidade, retornando a entidade Admin, mas CUIDADO com a senhaHash em produção.
-            // A entidade User no frontend não espera senhaHash, então não deve ser problema lá.
             return ResponseEntity.ok(admin); 
         } else {
             // Isso seria muito estranho, pois o token é baseado no e-mail de um usuário existente.
@@ -88,7 +79,6 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Admin associado ao token não encontrado.");
         }
     }
-    // FIM DO NOVO ENDPOINT
     
     @PostMapping("/password-reset-request")
     public ResponseEntity<?> requestPasswordReset(@RequestBody Map<String, String> request) {
@@ -97,10 +87,8 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Email é obrigatório");
         }
         
-        // Gerar token de redefinição
         String token = adminService.generatePasswordResetToken(email);
         
-        // Por segurança, sempre retornamos sucesso, mesmo se o email não existir
         return ResponseEntity.ok("Se o email estiver cadastrado, você receberá instruções para redefinir sua senha.");
     }
     
@@ -110,12 +98,10 @@ public class AdminController {
             return ResponseEntity.badRequest().body("Token e nova senha são obrigatórios");
         }
         
-        // Verificar se as senhas coincidem
         if (!request.getSenha().equals(request.getConfirmarSenha())) {
             return ResponseEntity.badRequest().body("As senhas não coincidem");
         }
         
-        // Tentar redefinir a senha
         boolean success = adminService.resetPassword(request.getToken(), request.getSenha());
         
         if (success) {
@@ -154,7 +140,6 @@ public class AdminController {
         public void setConfirmarSenha(String confirmarSenha) { this.confirmarSenha = confirmarSenha; }
     }
 
-    // Exemplo de DTO de resposta que você poderia criar (opcional, mas recomendado)
     // public static class AdminResponseDTO {
     //     private Long id;
     //     private String nome;

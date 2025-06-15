@@ -1,6 +1,5 @@
 package com.hmpsicoterapia.infrastructure.security;
 
-// Mantenha os imports existentes (UserDetailsService, JwtTokenProvider, etc.)
 import com.hmpsicoterapia.application.usecases.AdminService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,7 +20,7 @@ import java.io.IOException;
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserDetailsService userDetailsService; // Nosso AdminService
+    private final UserDetailsService userDetailsService; 
 
     @Autowired
     public JwtTokenFilter(JwtTokenProvider jwtTokenProvider,
@@ -37,7 +36,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         String path = request.getRequestURI();
 
-        // Pular processamento de token JWT para endpoints públicos de autenticação
         if ("/api/admin/login".equals(path) || 
             "/api/admin/register".equals(path) || 
             "/api/admin/password-reset-request".equals(path) || 
@@ -47,7 +45,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        // Pular processamento para requisições OPTIONS (CORS preflight)
+        
         if (request.getMethod().equals("OPTIONS")) {
             System.out.println("DEBUG: JwtTokenFilter - Bypass para requisição OPTIONS (CORS preflight)");
             filterChain.doFilter(request, response);
@@ -61,7 +59,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             try {
                 String userEmail = jwtTokenProvider.getEmailDoToken(token);
                 System.out.println("DEBUG: JwtTokenFilter - Email extraído do token: " + userEmail);
-                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail); // Chama AdminService
+                UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail); 
 
                 UsernamePasswordAuthenticationToken authentication =
                         new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());

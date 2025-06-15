@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/config/SecurityConfig.java
 package com.hmpsicoterapia.infrastructure.config;
 
 import com.hmpsicoterapia.infrastructure.security.JwtTokenFilter;
@@ -56,19 +55,12 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
             .csrf(csrf -> csrf.disable())
-            // Aplica a configuração de CORS definida no bean corsConfigurationSource()
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                // *** CORREÇÃO PRINCIPAL ***
-                // Permite que todas as requisições do tipo OPTIONS passem sem autenticação.
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                
-                // Permite acesso público aos endpoints de registro, login e redefinição de senha
                 .requestMatchers("/api/admin/register", "/api/admin/login", 
                                  "/api/admin/password-reset-request", 
                                  "/api/admin/reset-password").permitAll()
-                
-                // Permite acesso público aos endpoints do actuator
                 .requestMatchers("/actuator/**").permitAll()
                 
                 // Exige autenticação para todas as outras requisições
@@ -83,17 +75,12 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        // Permite requisições da origem do seu frontend
         configuration.setAllowedOrigins(List.of("http://localhost:5173", "http://localhost", "http://frontend"));
-        // Define os métodos HTTP permitidos
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
-        // Permite todos os cabeçalhos
         configuration.setAllowedHeaders(List.of("*"));
-        // Permite que o navegador envie credenciais (cookies, tokens)
         configuration.setAllowCredentials(true);
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Aplica esta configuração para todos os endpoints sob /api/ e /actuator/
         source.registerCorsConfiguration("/api/**", configuration);
         source.registerCorsConfiguration("/actuator/**", configuration);
         return source;

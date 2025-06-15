@@ -1,12 +1,12 @@
 package com.hmpsicoterapia.infrastructure.security;
 
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.security.Keys; // Importar Keys da biblioteca jjwt
+import io.jsonwebtoken.security.Keys; 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey; // Importar SecretKey do javax.crypto
-import java.nio.charset.StandardCharsets; // Importar StandardCharsets para conversão de string para bytes
+import javax.crypto.SecretKey; 
+import java.nio.charset.StandardCharsets; 
 import java.util.Date;
 
 @Component
@@ -22,16 +22,12 @@ public class JwtTokenProvider {
         this.key = Keys.hmacShaKeyFor(secretBytes);
         this.expiration = expiration;
 
-        // Validação do tamanho da chave no momento da criação do bean
-        // O algoritmo HS512 requer uma chave de pelo menos 512 bits (64 bytes).
-        if (secretBytes.length < 64) { // Checa o tamanho da string original em bytes
+        if (secretBytes.length < 64) { 
             System.err.println(
                     "ALERTA DE SEGURANÇA CRÍTICO: A string 'jwt.secret' configurada no application.properties tem " +
                             secretBytes.length + " bytes (" + (secretBytes.length * 8) + " bits), " +
                             "o que é MENOR que os 64 bytes (512 bits) recomendados para o algoritmo HS512. " +
                             "A biblioteca JJWT lançará uma WeakKeyException. AUMENTE O TAMANHO DA SUA jwt.secret!");
-            // Em um cenário real, você poderia lançar uma exceção aqui para impedir a inicialização com uma chave fraca.
-            // throw new IllegalArgumentException("A chave JWT configurada ('jwt.secret') é muito curta para o algoritmo HS512!");
         }
     }
 
@@ -43,7 +39,7 @@ public class JwtTokenProvider {
                 .setSubject(email)
                 .setIssuedAt(now)
                 .setExpiration(expiryDate)
-                .signWith(key, SignatureAlgorithm.HS512) // Usa a SecretKey e o algoritmo
+                .signWith(key, SignatureAlgorithm.HS512) 
                 .compact();
     }
 

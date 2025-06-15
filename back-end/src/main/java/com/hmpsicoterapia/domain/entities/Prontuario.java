@@ -1,4 +1,3 @@
-// Arquivo: back-end/src/main/java/com/hmpsicoterapia/entity/Prontuario.java
 package com.hmpsicoterapia.domain.entities;
 
 import jakarta.persistence.*;
@@ -14,12 +13,10 @@ public class Prontuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Campo necessário para satisfazer a restrição not-null no banco de dados
     @Column(name = "nome_paciente", nullable = false)
     private String nomePaciente;
 
-    // ADICIONA a relação com a entidade Paciente
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) // Cascade.ALL salva/atualiza o paciente junto com o prontuário. EAGER carrega o paciente junto.
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER) 
     @JoinColumn(name = "paciente_id", referencedColumnName = "id", nullable = false)
     private Paciente paciente;
 

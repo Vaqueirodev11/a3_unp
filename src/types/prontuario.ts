@@ -1,8 +1,3 @@
-// Arquivo: src/types/prontuario.ts
-// Este arquivo foi corrigido para refletir a estrutura de dados enviada pelo back-end (Prontuario.java)
-
-// As interfaces/enums abaixo podem não ser totalmente utilizadas pelo novo Prontuario
-// se o backend não fornecer esses dados de forma estruturada, mas as mantemos para outros componentes.
 export interface Paciente {
   id: string;
   nome: string;
